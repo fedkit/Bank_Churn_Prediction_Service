@@ -1,0 +1,20 @@
+# Используем официальный Python-образ (версия 3.9-slim)
+FROM python:3.9-slim
+
+# Задаем рабочую директорию
+WORKDIR /app
+
+# Копируем файл зависимостей
+COPY requirements.txt .
+
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем исходный код Streamlit-приложения
+COPY streamlit_app.py .
+
+# Открываем порт 8501 для Streamlit
+EXPOSE 8501
+
+# Запускаем Streamlit-приложение; отключаем CORS для упрощения доступа
+CMD ["streamlit", "run", "streamlit_app.py", "--server.enableCORS", "false"]
